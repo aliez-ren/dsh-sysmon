@@ -25,6 +25,8 @@ with two-step SIGTERM/SIGKILL controls.
   cap with a `showing N of M` note.
 - **Mobile layout** — below 900 px the panels stack, the process table keeps PID / CPU% /
   MEM% / TIME+ / COMMAND and scrolls on its own, so the panel stays usable on a phone.
+  Touch devices use the system UI font stack (Roboto / Noto Sans) instead of the desktop
+  monospace stack, so text and CJK glyphs look native on Android and iOS.
 - **Signals** — select a row, then press SIGTERM or SIGKILL; the first click arms the
   action, the second click within 3 s sends it. The host refuses `pid 1`, its own pid,
   non-integer pids and signals outside `TERM/KILL/STOP/CONT`.
