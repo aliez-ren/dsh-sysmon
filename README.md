@@ -17,8 +17,9 @@ with two-step SIGTERM/SIGKILL controls.
   sparkline.
 - **Network** — rx/tx rates with per-interface breakdown and history sparklines
   (`lo` excluded).
-- **Disk** — read/write throughput for physical whole disks (partitions and stacked
-  devices are deduplicated).
+- **Disk** — mounted filesystem capacity and free space (a progress bar per mount, bind
+  mounts deduplicated by device, container overlays shown at `/`), plus read/write
+  throughput for physical whole disks (partitions and stacked devices are deduplicated).
 - **Pressure** — PSI `some avg10` for CPU, IO and memory when the kernel exposes it.
 - **Process table** — PID, user, CPU%, MEM%, RSS, threads, state, cumulative CPU time and
   command line; click a header to sort, type to filter by pid/user/command, 400-row render

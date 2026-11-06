@@ -121,7 +121,7 @@ check('host/load/cpu/mem/net/disk/pressure/counts/hist carry the contract keys',
     'mem',
   )
   hasKeys(snapshot.net, ['rxBps', 'txBps', 'rxTotal', 'txTotal', 'ifaces'], 'net')
-  hasKeys(snapshot.disk, ['readBps', 'writeBps', 'devices'], 'disk')
+  hasKeys(snapshot.disk, ['readBps', 'writeBps', 'devices', 'filesystems'], 'disk')
   hasKeys(snapshot.pressure, ['cpu10', 'io10', 'mem10'], 'pressure')
   hasKeys(snapshot.counts, ['total', 'running', 'sleeping', 'zombie', 'threads'], 'counts')
   hasKeys(
@@ -131,6 +131,7 @@ check('host/load/cpu/mem/net/disk/pressure/counts/hist carry the contract keys',
   )
   for (const iface of snapshot.net.ifaces) hasKeys(iface, ['name', 'rxBps', 'txBps'], 'net.ifaces[]')
   for (const device of snapshot.disk.devices) hasKeys(device, ['name', 'readBps', 'writeBps'], 'disk.devices[]')
+  for (const entry of snapshot.disk.filesystems) hasKeys(entry, ['mount', 'device', 'fstype', 'total', 'used', 'available', 'usedPct'], 'disk.filesystems[]')
   assert.equal(snapshot.hist.step, 1000, 'hist.step must be the 1000 ms sampling interval')
 })
 
@@ -158,6 +159,16 @@ check('mem/net/disk values are plausible raw units', () => {
   assert.ok(Number.isFinite(snapshot.net.rxBps) && snapshot.net.rxBps >= 0, 'net.rxBps')
   assert.ok(Number.isFinite(snapshot.disk.readBps) && snapshot.disk.readBps >= 0, 'disk.readBps')
   assert.ok(Array.isArray(snapshot.disk.devices) && snapshot.disk.devices.length > 0, 'disk.devices')
+  assert.ok(Array.isArray(snapshot.disk.filesystems) && snapshot.disk.filesystems.length > 0, 'disk.filesystems exists')
+  for (const entry of snapshot.disk.filesystems) {
+    assert.ok(typeof entry.mount === 'string' && entry.mount.length > 0, 'filesystem mount')
+    assert.ok(Number.isFinite(entry.total) && entry.total > 0, 'filesystem total > 0')
+    assert.ok(Number.isFinite(entry.available) && entry.available >= 0, 'filesystem available >= 0')
+    assert.ok(Number.isFinite(entry.used) && entry.used >= 0, 'filesystem used >= 0')
+    assert.ok(entry.used + entry.available <= entry.total, 'filesystem used + available <= total')
+    assert.ok(entry.usedPct === null || (entry.usedPct >= 0 && entry.usedPct <= 100), 'filesystem usedPct 0..100')
+  }
+  assert.ok(snapshot.disk.filesystems.some((entry) => entry.mount === '/'), 'root filesystem is reported')
 })
 
 // ---------------------------------------------------------------------------
@@ -471,6 +482,7 @@ console.log(`cpu       ${pct(snapshot.cpu.usage)} of ${snapshot.cpu.perCore.leng
 console.log(`mem       ${mb(snapshot.mem.used)} / ${mb(snapshot.mem.total)} used   available ${mb(snapshot.mem.available)}   swap ${mb(snapshot.mem.swapUsed)}`)
 console.log(`net       rx ${(snapshot.net.rxBps / 1024).toFixed(1)} KiB/s   tx ${(snapshot.net.txBps / 1024).toFixed(1)} KiB/s   ifaces ${snapshot.net.ifaces.map((iface) => iface.name).join(',')}`)
 console.log(`disk      read ${(snapshot.disk.readBps / 1024).toFixed(1)} KiB/s   write ${(snapshot.disk.writeBps / 1024).toFixed(1)} KiB/s   ${snapshot.disk.devices.map((device) => device.name).join(',')}`)
+console.log(`filesystems ${snapshot.disk.filesystems.map((entry) => `${entry.mount} ${(entry.available / 1024 ** 3).toFixed(1)}/${(entry.total / 1024 ** 3).toFixed(1)} GiB free (${entry.usedPct}% used)`).join(' | ')}`)
 console.log(`procs     ${snapshot.counts.total} total, ${snapshot.counts.running} running, ${snapshot.counts.sleeping} sleeping, ${snapshot.counts.zombie} zombie, ${snapshot.counts.threads} threads`)
 console.log(`hist      ${snapshot.hist.cpu.length} samples, step ${snapshot.hist.step} ms, newest t=${snapshot.hist.t.at(-1)}s`)
 console.log(`cost      cheap tick avg ${avgTick.toFixed(2)} ms   full process scan ${scanMs.toFixed(1)} ms (${snapshot.procs.length} processes)`)
