@@ -23,6 +23,8 @@ with two-step SIGTERM/SIGKILL controls.
 - **Process table** — PID, user, CPU%, MEM%, RSS, threads, state, cumulative CPU time and
   command line; click a header to sort, type to filter by pid/user/command, 400-row render
   cap with a `showing N of M` note.
+- **Mobile layout** — below 900 px the panels stack, the process table keeps PID / CPU% /
+  MEM% / TIME+ / COMMAND and scrolls on its own, so the panel stays usable on a phone.
 - **Signals** — select a row, then press SIGTERM or SIGKILL; the first click arms the
   action, the second click within 3 s sends it. The host refuses `pid 1`, its own pid,
   non-integer pids and signals outside `TERM/KILL/STOP/CONT`.

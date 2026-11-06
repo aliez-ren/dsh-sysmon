@@ -1,6 +1,6 @@
 {
   "name": "dsh-sysmon",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "btop-style host process and load monitor inside the DSH Web GUI",
   "type": "module",
   "main": "lib/index.js",
