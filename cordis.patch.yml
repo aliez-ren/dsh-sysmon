@@ -1,0 +1,6 @@
+# Bundle patch for dsh-sysmon: one host row that samples the machine and serves
+# the snapshot API, plus its browser half through the package's dsh.client
+# declaration.
+- insert:
+    - id: sysmon
+      name: 'dsh-sysmon'

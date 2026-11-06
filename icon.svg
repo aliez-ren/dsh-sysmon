@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="dsh-sysmon">
+  <rect width="64" height="64" rx="14" fill="#0b1220"/>
+  <rect x="10" y="34" width="8" height="20" rx="2" fill="#22d3a6"/>
+  <rect x="22" y="22" width="8" height="32" rx="2" fill="#3b82f6"/>
+  <rect x="34" y="28" width="8" height="26" rx="2" fill="#f59e0b"/>
+  <rect x="46" y="14" width="8" height="40" rx="2" fill="#ef4444"/>
+  <path d="M10 26 L20 18 L28 22 L38 12 L46 16 L54 8" fill="none" stroke="#e2e8f0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

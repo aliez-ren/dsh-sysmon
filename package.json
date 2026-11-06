@@ -1,0 +1,50 @@
+{
+  "name": "dsh-sysmon",
+  "version": "0.1.0",
+  "description": "btop-style host process and load monitor inside the DSH Web GUI",
+  "type": "module",
+  "main": "lib/index.js",
+  "icon": "./icon.svg",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "cordis.patch.yml",
+    "icon.svg",
+    "README.md",
+    "docs"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "author": "Aliez Ren <aliez-ren@users.noreply.github.com>",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "btop",
+    "system-monitor",
+    "process-monitor",
+    "cpu",
+    "memory"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aliez-ren/dsh-sysmon.git"
+  },
+  "homepage": "https://github.com/aliez-ren/dsh-sysmon#readme",
+  "bugs": {
+    "url": "https://github.com/aliez-ren/dsh-sysmon/issues"
+  }
+}
